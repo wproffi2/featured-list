@@ -1,6 +1,4 @@
 #testing args 
-def some_args(*args):
-    print(args)
 
 class ArgTest:
     def __init__(self, *args):
