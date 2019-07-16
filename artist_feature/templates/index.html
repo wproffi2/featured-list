@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+{% extends "base.html" %}
+{% block page_content %}
+
+<form method="POST" action="/">
+    {% csrf_token %}
+    <input type="text" name="textfield">
+    
+    <button type="submit">Search</button>
+</form>
+
+{% for m in msg %}
+    {{ m }}
+{% endfor %}
+
+{% endblock %}
