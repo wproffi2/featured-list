@@ -26,33 +26,21 @@ class ArtistTree:
         return data
 
     def updateTree(self, parent_artist, data):
-        self.tree.add_node(parent_artist, type='artist')
+        self.tree.add_node(parent_artist, type='parent_artist')
         #self.color_map.append('green')
 
         for x in data:
             song, artists = x[0], list(x[1])
             self.tree.add_node(song, type='song')
-            #self.color_map.append('blue')
+            
 
             self.tree.add_edge(parent_artist, song)
 
             for artist in artists:
-                self.tree.add_node(artist, type='artist')
-                #self.color_map.append('green')
+                self.tree.add_node(artist, type='feat_artist')
+                
                 self.tree.add_edge(song, artist)
 
-        
         return 0
 
-"""
-artists = ['Tyler, The Creator', "Rex Orange County", "Jaden", "Kid Cudi"] #'A$AP Rocky'
-test = ArtistTree()
-for artist in artists:
-    parent_artist = artist
-    search = FeaturedArtists(parent_artist)
-    data = search.collectData()
-    test.updateTree(parent_artist, data)
-
-test.display()
-"""
 

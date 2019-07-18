@@ -30,7 +30,7 @@
         
         <button type="submit">Submit</button>
     </form>
-    <svg width="800" height="500"></svg>
+    <svg width="900" height="600"></svg>
 </div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -119,11 +119,17 @@ var zoom_handler = d3.zoom()
 zoom_handler(svg);  
 
 function circleColour(d){
-	if(d.type =="artist"){
-		return "blue";
-	} else {
-		return "green";
-	}
+    console.log(d.type)
+	if(d.type == "parent_artist"){
+		return "#0046FF";
+	} else if (d.type == "feat_artist"){
+		return "#0093FF";
+	} else if (d.type == 'song'){
+        return "green";
+    }
+    else {
+        return "red";
+    }
 }
 
 //Drag functions 
