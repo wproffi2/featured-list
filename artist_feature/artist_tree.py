@@ -1,8 +1,13 @@
 import networkx as nx
-from feat_artists import FeaturedArtists
+from networkx.readwrite import json_graph
+import json
 import matplotlib.pyplot as plt
+try:
+    from .feat_artists import FeaturedArtists
+except:
+    from feat_artists import FeaturedArtists
 
-
+#pls work
 class ArtistTree:
     def __init__(self):
         self.tree = nx.Graph()
@@ -13,26 +18,33 @@ class ArtistTree:
         nx.draw(self.tree, with_labels=True)
         plt.show()
 
+    def graphToJSON(self):
+        data = json_graph.node_link_data(self.tree)
+        #with open('graph.json', 'w') as f:
+            #json.dump(data, f, indent=4)
+        json.dumps(data)
+        return data
+
     def updateTree(self, parent_artist, data):
-        self.tree.add_node(parent_artist)
+        self.tree.add_node(parent_artist, type='artist')
         #self.color_map.append('green')
 
         for x in data:
             song, artists = x[0], list(x[1])
-            self.tree.add_node(song)
+            self.tree.add_node(song, type='song')
             #self.color_map.append('blue')
 
             self.tree.add_edge(parent_artist, song)
 
             for artist in artists:
-                self.tree.add_node(artist)
+                self.tree.add_node(artist, type='artist')
                 #self.color_map.append('green')
                 self.tree.add_edge(song, artist)
 
         
         return 0
 
-
+"""
 artists = ['Tyler, The Creator', "Rex Orange County", "Jaden", "Kid Cudi"] #'A$AP Rocky'
 test = ArtistTree()
 for artist in artists:
@@ -42,4 +54,5 @@ for artist in artists:
     test.updateTree(parent_artist, data)
 
 test.display()
+"""
 

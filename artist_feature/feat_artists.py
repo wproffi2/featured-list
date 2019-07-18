@@ -2,7 +2,10 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
 import pandas
-from config import Creds
+try:
+    from .config import Creds
+except:
+    from config import Creds
 
 
 
@@ -18,14 +21,17 @@ class FeaturedArtists:
     def artist_data(self, artists):
         artists = [artist['name'] for artist in artists if 'name' in artist]
         artists = tuple(artists)
+        
         return(artists)
 
     def collectSongs(self, album_id):
         track_results = FeaturedArtists.spotifyObject.album_tracks(album_id)
         tracks = track_results['items']
+        #print(tracks)
         songs = [track['name'] for track in tracks]
-
+        #print(songs)
         artists = [track['artists'] for track in tracks]
+        #print(artists)
         artists = [artist[1:] for artist in artists]
         artists = [self.artist_data(artist) for artist in artists]
         
@@ -36,7 +42,9 @@ class FeaturedArtists:
         album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id)
         albums = album_Results['items']
         
-        
+        albums = [album for album in albums if album['album_group'] != 'appears_on']
+        #for album in albums:
+        #    print(album['album_group'])
         tracks = [album['id'] for album in albums]
         data = tuple(map(self.collectSongs, tracks))
 
@@ -51,6 +59,10 @@ class FeaturedArtists:
         artist_id = results['id']
         return artist_id
 
+"""
+parent_artist='Rex Orange County'
 
-
-
+search = FeaturedArtists(parent_artist)
+data = search.collectData()
+#print(data)
+"""

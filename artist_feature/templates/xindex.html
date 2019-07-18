@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+
+
+<div id="d3-example"></div>
+<style>
+.node {stroke: #fff; stroke-width: 1.5px;}
+.link {stroke: #999; stroke-opacity: .6;}
+</style>
+
+{% block page_content %}
+
+<div class="box">
+    <form method="POST" action="/">
+        {% csrf_token %}
+        <input type="text" name="textfield" placeholder="Search..">
+        
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+<script>
+
+/*
+var nodes = "{{nodes}}"
+for (var key in nodes) {
+    var val = nodes[key];
+    document.write(val);
+}
+*/
+</script>
+
+
+{% endblock %}
