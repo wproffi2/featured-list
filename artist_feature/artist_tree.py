@@ -26,18 +26,18 @@ class ArtistTree:
         return data
 
     def updateTree(self, parent_artist, data):
-        self.tree.add_node(parent_artist, type='parent_artist')
+        self.tree.add_node(parent_artist, type=0)
         #self.color_map.append('green')
 
         for x in data:
             song, artists = x[0], list(x[1])
-            self.tree.add_node(song, type='song')
+            self.tree.add_node(song, type=1)
             
             
             self.tree.add_edge(parent_artist, song)
 
             for artist in artists:
-                self.tree.add_node(artist, type='feat_artist')
+                self.tree.add_node(artist, type=2)
                 
                 self.tree.add_edge(song, artist)
 
