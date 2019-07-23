@@ -26,8 +26,8 @@
 <div style="text-align:center">
     <form method="POST" action="/">
         {% csrf_token %}
-        <input type="text" name="textfield" placeholder="Search...">
-        
+        <input type="text" name="textfield" placeholder="Search..."><br>
+        <input type="checkbox" name="appears_on" value="1">Include songs artist appears on<br>
         <button type="submit">Submit</button>
     </form>
     <svg width="900" height="600"></svg>

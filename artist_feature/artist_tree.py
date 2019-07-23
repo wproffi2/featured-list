@@ -33,7 +33,7 @@ class ArtistTree:
             song, artists = x[0], list(x[1])
             self.tree.add_node(song, type='song')
             
-
+            
             self.tree.add_edge(parent_artist, song)
 
             for artist in artists:
