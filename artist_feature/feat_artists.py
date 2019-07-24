@@ -32,21 +32,6 @@ class FeaturedArtists:
         
         artists = [track['artists'] for track in tracks]
         
-        artists = [artist[1:] for artist in artists]
-        
-        artists = [self.artist_data(artist) for artist in artists]
-        
-        data = list(zip(songs, artists))
-        return data
-
-    def collectAppearsOnSongs(self, album_id):
-        track_results = FeaturedArtists.spotifyObject.album_tracks(album_id)
-        tracks = track_results['items']
-        
-        songs = [track['name'] for track in tracks]
-        
-        artists = [track['artists'] for track in tracks]
-        
         #artists = [artist[1:] for artist in artists]
         
         artists = [self.artist_data(artist) for artist in artists]
@@ -65,7 +50,7 @@ class FeaturedArtists:
         if appears_on:
             appears_on = [album for album in albums if album['album_group'] == 'appears_on']
             appears_on_tracks = [album['id'] for album in appears_on]
-            appears_on_data = tuple(map(self.collectAppearsOnSongs, appears_on_tracks))
+            appears_on_data = tuple(map(self.collectSongs, appears_on_tracks))
             ls = []
             for songs in appears_on_data:
                 
@@ -74,15 +59,15 @@ class FeaturedArtists:
                         ls.append(song)
             ls = list(set(ls))
             
-            appears_on_data = []
-            for song in ls:
-                x = tuple(filter(lambda a: a!=self.artist_name, song[1]))
-                appears_on_data.append((song[0], x))
+            #appears_on_data = []
+            #for song in ls:
+                #x = tuple(filter(lambda a: a!=self.artist_name, song[1]))
+                #appears_on_data.append((song[0], x))
 
         
         data = [x for row in data for x in row]
         if appears_on:
-            data = data + appears_on_data
+            data = data + ls#appears_on_data
             #merge data and appears_on_data
 
         data = list(set(data))

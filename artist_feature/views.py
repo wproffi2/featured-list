@@ -11,16 +11,18 @@ def index(request):
         
         if parent_artist:
             if appears_on != ['1']:
-                artist_tree = ArtistTree()
+                artist_tree = ArtistTree(parent_artist)
+                
                 search = FeaturedArtists(parent_artist)
                 data = search.collectData()
-                artist_tree.updateTree(parent_artist, data)
+                
+                artist_tree.updateTree(data)
                 data = artist_tree.graphToJSON()
             else:
-                artist_tree = ArtistTree()
+                artist_tree = ArtistTree(parent_artist)
                 search = FeaturedArtists(parent_artist)
                 data = search.collectData(appears_on=True)
-                artist_tree.updateTree(parent_artist, data)
+                artist_tree.updateTree(data)
                 data = artist_tree.graphToJSON()
             
             resp = data

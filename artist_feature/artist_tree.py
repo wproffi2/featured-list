@@ -9,9 +9,11 @@ except:
 
 #pls work
 class ArtistTree:
-    def __init__(self):
+    def __init__(self, parent_artist):
         self.tree = nx.Graph()
-        self.color_map = []
+        self.parent_artist = parent_artist
+        #self.tree.add_node(self.parent_artist, type=0)
+        
     
     def display(self):
         #nx.draw(self.tree, node_color = self.color_map, with_labels=True)
@@ -25,16 +27,20 @@ class ArtistTree:
         json.dumps(data)
         return data
 
-    def updateTree(self, parent_artist, data):
-        self.tree.add_node(parent_artist, type=0)
+    def updateTree(self, data):
+        
         #self.color_map.append('green')
 
         for x in data:
             song, artists = x[0], list(x[1])
+            
+            song_artist = artists.pop(0)
+            print(song_artist)
+            self.tree.add_node(song_artist, type=0)
             self.tree.add_node(song, type=1)
             
             
-            self.tree.add_edge(parent_artist, song)
+            self.tree.add_edge(song_artist, song)
 
             for artist in artists:
                 self.tree.add_node(artist, type=2)
