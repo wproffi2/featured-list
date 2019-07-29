@@ -11,12 +11,9 @@ except:
 class ArtistTree:
     def __init__(self, parent_artist):
         self.tree = nx.Graph()
-        self.parent_artist = parent_artist
-        #self.tree.add_node(self.parent_artist, type=0)
-        
+        self.parent_artist = parent_artist        
     
     def display(self):
-        #nx.draw(self.tree, node_color = self.color_map, with_labels=True)
         nx.draw(self.tree, with_labels=True)
         plt.show()
 
@@ -29,13 +26,11 @@ class ArtistTree:
 
     def updateTree(self, data):
         
-        #self.color_map.append('green')
-
         for x in data:
             song, artists = x[0], list(x[1])
             
             song_artist = artists.pop(0)
-            #print(song_artist)
+            
             self.tree.add_node(song_artist, type=0)
             self.tree.add_node(song, type=1)
             
