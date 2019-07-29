@@ -35,7 +35,7 @@ class ArtistTree:
             song, artists = x[0], list(x[1])
             
             song_artist = artists.pop(0)
-            print(song_artist)
+            #print(song_artist)
             self.tree.add_node(song_artist, type=0)
             self.tree.add_node(song, type=1)
             

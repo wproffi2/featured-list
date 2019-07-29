@@ -1,7 +1,10 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block page_content %}
 <!DOCTYPE html>
 <meta charset="utf-8">
+<link rel="stylesheet" href="{{ STATIC_URL }}static/style.css">
+
 <style>
 
 .links line {
@@ -30,7 +33,11 @@
         <input type="checkbox" name="appears_on" value="1">Include songs artist appears on<br>
         <button type="submit">Submit</button>
     </form>
-    <svg width="900" height="600"></svg>
+<br>
+
+</div>
+<div style="text-align:center">
+    <svg width="1000" height="700"></svg>
 </div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -50,10 +57,11 @@ var simulation = d3.forceSimulation()
     .nodes(nodes);
                               
 var link_force =  d3.forceLink(links)
-    .id(function(d) { return d.id; });            
+    .id(function(d) { return d.id; })
+    .distance(function(d) {return 75});            
          
 var charge_force = d3.forceManyBody()
-    .strength(-100); 
+    .strength(-250); 
     
 var center_force = d3.forceCenter(width / 2, height / 2);  
                       
@@ -91,6 +99,8 @@ var node = g.append("g")
         .attr("r", radius)
         .attr("fill", circleColor);
 
+
+
 var text = g.append("g").attr("class", "labels").selectAll("g")
     .data(nodes)
     .enter().append("g")
@@ -118,6 +128,9 @@ var zoom_handler = d3.zoom()
 
 zoom_handler(svg);  
 
+
+
+
 function circleColor(d){
     //console.log(d.type)
     switch (d.type) {
@@ -132,18 +145,6 @@ function circleColor(d){
 
        default: return 'red';
     }
-    /*
-	if(d.type == "parent_artist"){
-		return "#0046FF";
-	} else if (d.type == "feat_artist"){
-		return "#0093FF";
-	} else if (d.type == 'song'){
-        return "green";
-    }
-    else {
-        return "red";
-    }
-    */
 }
 
 //Drag functions 

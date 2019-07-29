@@ -46,7 +46,10 @@ class FeaturedArtists:
         artist_albums = [album for album in albums if album['album_group'] != 'appears_on']
         tracks = [album['id'] for album in artist_albums]
         data = tuple(map(self.collectSongs, tracks))
-        
+        data = [x for row in data for x in row]
+        #for d in data:
+        #    print(d[1])
+
         if appears_on:
             appears_on = [album for album in albums if album['album_group'] == 'appears_on']
             appears_on_tracks = [album['id'] for album in appears_on]
@@ -58,19 +61,11 @@ class FeaturedArtists:
                     if self.artist_name in song[1]:
                         ls.append(song)
             ls = list(set(ls))
-            
-            #appears_on_data = []
-            #for song in ls:
-                #x = tuple(filter(lambda a: a!=self.artist_name, song[1]))
-                #appears_on_data.append((song[0], x))
-
-        
-        data = [x for row in data for x in row]
-        if appears_on:
-            data = data + ls#appears_on_data
-            #merge data and appears_on_data
+            data = data + ls
 
         data = list(set(data))
+        #for x in data:
+         #   print(x)
         return(data)
         
 
