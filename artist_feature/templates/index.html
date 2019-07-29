@@ -26,18 +26,21 @@
 
 
 
-<div style="text-align:center">
-    <form method="POST" action="/">
-        {% csrf_token %}
-        <input type="text" name="textfield" placeholder="Search..."><br>
-        <input type="checkbox" name="appears_on" value="1">Include songs artist appears on<br>
-        <button type="submit">Submit</button>
-    </form>
+<div class="topnav">
+    <div class="search-container">
+        <form method="POST" action="/">
+            {% csrf_token %}
+            <input type="text" name="search" placeholder="Search...">
+            <button type="submit">Submit</button>
+            <input type="checkbox" name="appears_on" value="1">Include songs artist appears on<br>
+        </form>
+    </div>
+</div>
+
 <br>
 
-</div>
 <div style="text-align:center">
-    <svg width="1000" height="700"></svg>
+    <svg width="1500" height="700"></svg>
 </div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>

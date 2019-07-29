@@ -7,8 +7,6 @@ except:
     from config import Creds
     
 
-
-
 class FeaturedArtists:
     client_credentials_manager = Creds().client_credentials_manager
     spotifyObject = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
@@ -32,14 +30,13 @@ class FeaturedArtists:
         
         artists = [track['artists'] for track in tracks]
         
-        #artists = [artist[1:] for artist in artists]
-        
         artists = [self.artist_data(artist) for artist in artists]
         
         data = list(zip(songs, artists))
         return data
     
     def collectData(self, appears_on=False):
+        
         album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id)
         albums = album_Results['items']
         
@@ -47,8 +44,6 @@ class FeaturedArtists:
         tracks = [album['id'] for album in artist_albums]
         data = tuple(map(self.collectSongs, tracks))
         data = [x for row in data for x in row]
-        #for d in data:
-        #    print(d[1])
 
         if appears_on:
             appears_on = [album for album in albums if album['album_group'] == 'appears_on']
@@ -56,16 +51,15 @@ class FeaturedArtists:
             appears_on_data = tuple(map(self.collectSongs, appears_on_tracks))
             ls = []
             for songs in appears_on_data:
-                
                 for song in songs:
                     if self.artist_name in song[1]:
                         ls.append(song)
+            
             ls = list(set(ls))
             data = data + ls
 
         data = list(set(data))
-        #for x in data:
-         #   print(x)
+        
         return(data)
         
 
