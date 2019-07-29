@@ -48,7 +48,9 @@ class FeaturedArtists:
         if appears_on:
             appears_on = [album for album in albums if album['album_group'] == 'appears_on']
             appears_on_tracks = [album['id'] for album in appears_on]
+            
             appears_on_data = tuple(map(self.collectSongs, appears_on_tracks))
+            
             ls = []
             for songs in appears_on_data:
                 for song in songs:
@@ -67,6 +69,7 @@ class FeaturedArtists:
         results = FeaturedArtists.spotifyObject.search(q='artist:' + self.artist_name, type='artist')
         results = results['artists']['items'][0]
         artist_id = results['id']
+        self.artist_name = results['name']
         return artist_id
 
 """

@@ -6,7 +6,7 @@ from .feat_artists import FeaturedArtists
 def index(request):
     if request.method == 'POST':
         appears_on = request.POST.getlist('appears_on')
-        print(appears_on)
+        
         parent_artist = request.POST.get('search', None)
         
         if parent_artist:
@@ -20,7 +20,7 @@ def index(request):
                 data = artist_tree.graphToJSON()
             
             else:
-                print('test')
+                
                 artist_tree = ArtistTree(parent_artist)
                 search = FeaturedArtists(parent_artist)
                 data = search.collectData(appears_on=True)
