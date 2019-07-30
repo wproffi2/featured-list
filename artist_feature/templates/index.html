@@ -32,10 +32,37 @@
             {% csrf_token %}
             <input type="text" name="search" placeholder="Search...">
             <button type="submit">Submit</button>
-            <input type="checkbox" name="appears_on" value="1">Include songs artist appears on<br>
+            <br>
+
+            <input type="checkbox"  id = "feat_artist_songs" name="options" value="1">
+            <label for="feat_artist_songs">Include All Songs by 'Featured Artists'</label>
+            <br>
+
+            <input type="checkbox" id = "appears_on" name="options" value="2" onclick="checkOptions()">
+            <label for="appears_on">Include Songs the Artist Appears On</label>
+            <br>
+
+            <input type="checkbox"  id = "appears_on_artists_songs" name="options" value="3" disabled>
+            <label for="appears_on_artists_songs">Include All Songs by 'Appears On' Artists</label>
+            
         </form>
+        
     </div>
 </div>
+
+<script>
+    function checkOptions() {
+      var checkBox = document.getElementById("appears_on");
+
+      if (checkBox.checked == true){
+        document.getElementById('appears_on_artists_songs').disabled = false;
+      } else {
+        document.getElementById('appears_on_artists_songs').disabled = true;
+        document.getElementById('appears_on_artists_songs').checked = false;
+      }
+    }
+</script>
+
 
 <br>
 
@@ -83,8 +110,6 @@ var g = svg.append("g")
     .attr("class", "everything");
 
 
-
-
 var link = g.append("g")
       .attr("class", "links")
     .selectAll("line")
@@ -101,7 +126,6 @@ var node = g.append("g")
         .append("circle")
         .attr("r", radius)
         .attr("fill", circleColor);
-
 
 
 var text = g.append("g").attr("class", "labels").selectAll("g")

@@ -9,9 +9,8 @@ except:
 
 #pls work
 class ArtistTree:
-    def __init__(self, parent_artist):
-        self.tree = nx.Graph()
-        self.parent_artist = parent_artist        
+    def __init__(self):
+        self.tree = nx.Graph()      
     
     def display(self):
         nx.draw(self.tree, with_labels=True)
@@ -31,14 +30,14 @@ class ArtistTree:
             
             song_artist = artists.pop(0)
             
-            self.tree.add_node(song_artist, type=0)
-            self.tree.add_node(song, type=1)
+            self.tree.add_node(song_artist, type=0, img="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png")
+            self.tree.add_node(song, type=1, img="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png")
             
             
             self.tree.add_edge(song_artist, song)
 
             for artist in artists:
-                self.tree.add_node(artist, type=2)
+                self.tree.add_node(artist, type=2, img="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png")
                 
                 self.tree.add_edge(song, artist)
 

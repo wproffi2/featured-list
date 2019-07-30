@@ -46,6 +46,8 @@ class FeaturedArtists:
         data = [x for row in data for x in row]
 
         if appears_on:
+            album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id, album_type='appears_on')
+            albums = album_Results['items']
             appears_on = [album for album in albums if album['album_group'] == 'appears_on']
             appears_on_tracks = [album['id'] for album in appears_on]
             
@@ -58,6 +60,7 @@ class FeaturedArtists:
                         ls.append(song)
             
             ls = list(set(ls))
+            
             data = data + ls
 
         data = list(set(data))
