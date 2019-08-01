@@ -36,11 +36,25 @@ class FeaturedArtists:
         return data
     
     def collectFeaturedPerformersData(self):
+        album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id, album_type='appears_on')
+        albums = album_Results['items']
+        appears_on = [album for album in albums if album['album_group'] == 'appears_on']
+        appears_on_tracks = [album['id'] for album in appears_on]
         
-        return 0
+        appears_on_data = tuple(map(self.collectSongs, appears_on_tracks))
+        
+        data = []
+        for songs in appears_on_data:
+            for song in songs:
+                if self.artist_name in song[1]:
+                    data.append(song)
+        
+        data = list(set(data))
+        #print(data)
+        return data
 
 
-    def collectMainPerformersData(self, appears_on=False):
+    def collectMainPerformersData(self):
         
         album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id)
         albums = album_Results['items']
@@ -49,24 +63,6 @@ class FeaturedArtists:
         tracks = [album['id'] for album in artist_albums]
         data = tuple(map(self.collectSongs, tracks))
         data = [x for row in data for x in row]
-
-        if appears_on:
-            album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id, album_type='appears_on')
-            albums = album_Results['items']
-            appears_on = [album for album in albums if album['album_group'] == 'appears_on']
-            appears_on_tracks = [album['id'] for album in appears_on]
-            
-            appears_on_data = tuple(map(self.collectSongs, appears_on_tracks))
-            
-            ls = []
-            for songs in appears_on_data:
-                for song in songs:
-                    if self.artist_name in song[1]:
-                        ls.append(song)
-            
-            ls = list(set(ls))
-            
-            data = data + ls
 
         data = list(set(data))
         

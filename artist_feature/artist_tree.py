@@ -10,7 +10,8 @@ except:
 #pls work
 class ArtistTree:
     def __init__(self):
-        self.tree = nx.Graph()      
+        self.tree = nx.Graph()
+        self.feat_performers = []      
     
     def display(self):
         nx.draw(self.tree, with_labels=True)
@@ -18,29 +19,47 @@ class ArtistTree:
 
     def graphToJSON(self):
         data = json_graph.node_link_data(self.tree)
-        #with open('graph.json', 'w') as f:
-            #json.dump(data, f, indent=4)
+        
         json.dumps(data)
         return data
 
-    def updateTree(self, data):
+    def updateTreeFirstDegree(self, data):
         
         for x in data:
             song, artists = x[0], list(x[1])
             
             song_artist = artists.pop(0)
             
-            self.tree.add_node(song_artist, type=0, img="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png")
-            self.tree.add_node(song, type=1, img="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png")
+            self.tree.add_node(song_artist, type=0)
+            self.tree.add_node(song, type=1)
             
             
             self.tree.add_edge(song_artist, song)
 
             for artist in artists:
-                self.tree.add_node(artist, type=2, img="http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_daredevil.png")
+                self.tree.add_node(artist, type=2)
                 
                 self.tree.add_edge(song, artist)
 
+                if artist not in self.feat_performers:
+                    self.feat_performers.append(artist)
+
         return 0
 
+    def updateTreeSecondDegree(self, data):
+        for x in data:
+            song, artists = x[0], list(x[1])
+            
+            song_artist = artists.pop(0)
+            
+            self.tree.add_node(song_artist, type=0)
+            self.tree.add_node(song, type=1)
+            
+            
+            self.tree.add_edge(song_artist, song)
 
+            for artist in artists:
+                self.tree.add_node(artist, type=2)
+                
+                self.tree.add_edge(song, artist)
+        return(0)
