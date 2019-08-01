@@ -33,18 +33,19 @@
             <input type="text" name="search" placeholder="Search...">
             <button type="submit">Submit</button>
             <br>
-
+            <!--
             <input type="checkbox"  id = "feat_artist_songs" name="options" value="1">
             <label for="feat_artist_songs">Include All Songs by 'Featured Performers'</label>
             <br>
-
+            -->
             <input type="checkbox" id = "appears_on" name="options" value="2" onclick="checkOptions()">
             <label for="appears_on">Include Songs the Artist Appears On</label>
             <br>
-
+            <!-- 
             <input type="checkbox"  id = "appears_on_artists_songs" name="options" value="3" disabled>
             <label for="appears_on_artists_songs">Include All Songs by 'Appears On' Artists</label>
-            
+            -->
+            <audio controls src=""></audio>
         </form>
         
     </div>
@@ -125,7 +126,8 @@ var node = g.append("g")
         .enter()
         .append("circle")
         .attr("r", radius)
-        .attr("fill", circleColor);
+        .attr("fill", circleColor)
+        .attr("xlink:href", function (d) { return d.preview;} );
 
 
 var text = g.append("g").attr("class", "labels").selectAll("g")
@@ -217,6 +219,7 @@ function tickActions() {
         .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 } 
 </script>
+
 {% endautoescape %}
 
 {% endblock %}

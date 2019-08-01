@@ -24,15 +24,18 @@ class FeaturedArtists:
 
     def collectSongs(self, album_id):
         track_results = FeaturedArtists.spotifyObject.album_tracks(album_id)
-        tracks = track_results['items']
         
+        tracks = track_results['items']
+    
         songs = [track['name'] for track in tracks]
         
         artists = [track['artists'] for track in tracks]
         
         artists = [self.artist_data(artist) for artist in artists]
         
-        data = list(zip(songs, artists))
+        preview_urls = [track['preview_url'] for track in tracks]
+
+        data = list(zip(songs, artists, preview_urls))
         return data
     
     def collectFeaturedPerformersData(self):
@@ -50,7 +53,6 @@ class FeaturedArtists:
                     data.append(song)
         
         data = list(set(data))
-        #print(data)
         return data
 
 

@@ -26,12 +26,12 @@ class ArtistTree:
     def updateTreeFirstDegree(self, data):
         
         for x in data:
-            song, artists = x[0], list(x[1])
+            song, artists, preview = x[0], list(x[1]), x[2]
             
             song_artist = artists.pop(0)
             
             self.tree.add_node(song_artist, type=0)
-            self.tree.add_node(song, type=1)
+            self.tree.add_node(song, type=1, preview=preview)
             
             
             self.tree.add_edge(song_artist, song)
@@ -48,7 +48,7 @@ class ArtistTree:
 
     def updateTreeSecondDegree(self, data):
         for x in data:
-            song, artists = x[0], list(x[1])
+            song, artists, previews = x[0], list(x[1]), x[2]
             
             song_artist = artists.pop(0)
             
