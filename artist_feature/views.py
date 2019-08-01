@@ -18,13 +18,10 @@ def index(request):
         if origin_artist:
             artist_tree = ArtistTree()
             search = FeaturedArtists(origin_artist)
-            
-            #origin_artist = search.artist_name
                         
             data = search.collectMainPerformersData()
             artist_tree.updateTreeFirstDegree(data)
             feat_performers = artist_tree.feat_performers
-            #print(feat_performers)
 
             for num in options:
                 if num == COLLECT_FEATURED_PERFORMERS:
