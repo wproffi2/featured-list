@@ -11,14 +11,17 @@ def index(request):
         
         if origin_artist:
             #artist_tree = ArtistTree()
+            #search = FeaturedArtists(origin_artist)
+            #data = search.collectMainPerformersData()
             for num in options:
                 print(num)
             
             #"""
-            if 2 in options:
+            if '2' in options:
+                print(True)
                 artist_tree = ArtistTree()
                 search = FeaturedArtists(origin_artist)
-                data = search.collectData(appears_on=True)
+                data = search.collectMainPerformersData(appears_on=True)
                 artist_tree.updateTree(data)
                 data = artist_tree.graphToJSON()
 
@@ -26,7 +29,7 @@ def index(request):
                 artist_tree = ArtistTree()
                 
                 search = FeaturedArtists(origin_artist)
-                data = search.collectData()
+                data = search.collectMainPerformersData()
                 
                 artist_tree.updateTree(data)
                 data = artist_tree.graphToJSON()

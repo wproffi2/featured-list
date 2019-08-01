@@ -35,7 +35,12 @@ class FeaturedArtists:
         data = list(zip(songs, artists))
         return data
     
-    def collectData(self, appears_on=False):
+    def collectFeaturedPerformersData(self):
+        
+        return 0
+
+
+    def collectMainPerformersData(self, appears_on=False):
         
         album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id)
         albums = album_Results['items']
