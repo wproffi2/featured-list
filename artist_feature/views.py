@@ -15,6 +15,7 @@ def index(request):
         options = request.POST.getlist('options')
         
         origin_artist = request.POST.get('search', None)
+        print(origin_artist)
         
         if origin_artist:
             artist_tree = ArtistTree()

@@ -77,6 +77,14 @@ div {
     background: #ccc;
   }
 
+  .sidenav .new_search {
+    position: fixed;
+    left: 0px;
+    bottom: 100px;
+    margin-left: 25px;
+    margin-bottom: 25px;
+  }
+
   .sidenav audio {
     position: fixed;
     left: 0;
@@ -88,7 +96,7 @@ div {
   .sidenav .preview_label {
     position: fixed;
     font-size: 20px;
-    left: 0;
+    left: 0px;
     bottom: 200px;
     padding: 25px;
     max-width: 250px;

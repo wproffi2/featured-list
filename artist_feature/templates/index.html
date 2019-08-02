@@ -30,40 +30,26 @@
     <div class="search-container">
         <form method="POST" action="/">
             {% csrf_token %}
-            <input type="text" name="search" placeholder="Search...">
+            <input type="text" id = 'search' name="search" placeholder="Search...">
             <button type="submit">Submit</button>
             <br>
-            <!--
-            <input type="checkbox"  id = "feat_artist_songs" name="options" value="1">
-            <label for="feat_artist_songs">Include All Songs by 'Featured Performers'</label>
-            <br>
-            -->
-            <input type="checkbox" id = "appears_on" name="options" value="2" onclick="checkOptions()">
+            <input type="checkbox" id = "appears_on" name="options" value="2">
             <label for="appears_on">Include Songs the Artist Appears On</label>
             <br>
-            <!-- 
-            <input type="checkbox"  id = "appears_on_artists_songs" name="options" value="3" disabled>
-            <label for="appears_on_artists_songs">Include All Songs by 'Appears On' Artists</label>
-            -->
-            
         </form>
+        
         <label id = "preview_label" class="preview_label" for ="play_preview"></label>
+        
+        <form method="POST" action="/">
+          {% csrf_token %}
+          <button id='new_search' class="new_search" type="submit" hidden></button>
+        </form>
+        
         <audio controls id='play_preview' src=""></audio>
     </div>
 </div>
 
-<script>
-    function checkOptions() {
-      var checkBox = document.getElementById("appears_on");
 
-      if (checkBox.checked == true){
-        document.getElementById('appears_on_artists_songs').disabled = false;
-      } else {
-        document.getElementById('appears_on_artists_songs').disabled = true;
-        document.getElementById('appears_on_artists_songs').checked = false;
-      }
-    }
-</script>
 
 
 <br>
@@ -135,15 +121,40 @@ var node = g.append("g")
 
 
 node.on('click', function(d) {
-  console.log(d.preview)
-  if (d.preview != 'None') {
-    document.getElementById('play_preview').src = d.preview
+  console.log(d.type)
+  document.getElementById('preview_label').innerHTML = ''
+  document.getElementById('new_search').hidden = true
+  document.getElementById('new_search').disabled = false
+  document.getElementById('play_preview').src = ''
+
+  if (d.type == 2 || d.type == 0) {
     
-  } else {
-    console.log(d.id)
-    document.getElementById('play_preview').src = "https://p.scdn.co/mp3-preview/a69cabb16c6c3333db903d1f538e808493689e40?cid=6ce7c42a73ca48339295b6326ed6a165"
-  } //https://youtu.be/dQw4w9WgXcQ?t=43"
-  document.getElementById('preview_label').innerHTML = d.id
+    document.getElementById('new_search').innerHTML = "Search for " + d.id
+    document.getElementById('new_search').hidden = false
+    document.getElementById('search').value = d.id
+  
+  } else{
+    
+    if (d.preview != 'None') {
+      
+      document.getElementById('play_preview').src = d.preview
+      document.getElementById('new_search').innerHTML = "Play Preview for " + d.id
+      document.getElementById('new_search').disabled = true
+      document.getElementById('new_search').hidden = false
+      //document.getElementById('preview_label').innerHTML = d.id
+    
+    } else {
+      
+      document.getElementById('play_preview').src = "https://p.scdn.co/mp3-preview/a69cabb16c6c3333db903d1f538e808493689e40?cid=6ce7c42a73ca48339295b6326ed6a165"
+      document.getElementById('new_search').innerHTML = "Play Preview for " + d.id
+      //document.getElementById('preview_label').innerHTML = d.id
+      document.getElementById('new_search').disabled = true
+      document.getElementById('new_search').hidden = false
+    
+    }
+  }
+
+  
   
  });
 
