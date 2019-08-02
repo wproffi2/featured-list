@@ -57,26 +57,32 @@ class FeaturedArtists:
 
 
     def collectMainPerformersData(self):
-        
-        album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id)
-        albums = album_Results['items']
-        
-        artist_albums = [album for album in albums if album['album_group'] != 'appears_on']
-        tracks = [album['id'] for album in artist_albums]
-        data = tuple(map(self.collectSongs, tracks))
-        data = [x for row in data for x in row]
+        try:
+            album_Results = FeaturedArtists.spotifyObject.artist_albums(self.artist_id)
+            albums = album_Results['items']
+            
+            artist_albums = [album for album in albums if album['album_group'] != 'appears_on']
+            tracks = [album['id'] for album in artist_albums]
+            data = tuple(map(self.collectSongs, tracks))
+            data = [x for row in data for x in row]
 
-        data = list(set(data))
-        
-        return(data)
+            data = list(set(data))
+            #print(data)
+            return(data)
+        except Exception as e:
+            return e
         
 
     def getID(self):
-        results = FeaturedArtists.spotifyObject.search(q='artist:' + self.artist_name, type='artist')
-        results = results['artists']['items'][0]
-        artist_id = results['id']
-        self.artist_name = results['name']
-        return artist_id
+        try:
+            results = FeaturedArtists.spotifyObject.search(q='artist:' + self.artist_name, type='artist')
+            #if results['artists']['total'] !=0
+            results = results['artists']['items'][0]
+            artist_id = results['id']
+            self.artist_name = results['name']
+            return artist_id
+        except Exception as e:
+            return e
 
 """
 parent_artist='Rex Orange County'

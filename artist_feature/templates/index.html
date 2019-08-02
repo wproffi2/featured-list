@@ -45,9 +45,10 @@
             <input type="checkbox"  id = "appears_on_artists_songs" name="options" value="3" disabled>
             <label for="appears_on_artists_songs">Include All Songs by 'Appears On' Artists</label>
             -->
-            <audio controls src=""></audio>
+            
         </form>
-        
+        <label id = "preview_label" class="preview_label" for ="play_preview"></label>
+        <audio controls id='play_preview' src=""></audio>
     </div>
 </div>
 
@@ -67,7 +68,7 @@
 
 <br>
 
-<div style="text-align:center">
+<div style="text-align:center" class="svg_div">
     <svg width="1500" height="800"></svg>
 </div>
 
@@ -127,8 +128,24 @@ var node = g.append("g")
         .append("circle")
         .attr("r", radius)
         .attr("fill", circleColor)
-        .attr("xlink:href", function (d) { return d.preview;} );
+        .attr("xlink:href", function (d) { return d.preview;} )
+        .on("mouseover", handleMouseOver)
+        .on("mouseout", handleMouseOut);
 
+
+
+node.on('click', function(d) {
+  console.log(d.preview)
+  if (d.preview != 'None') {
+    document.getElementById('play_preview').src = d.preview
+    
+  } else {
+    console.log(d.id)
+    document.getElementById('play_preview').src = "https://p.scdn.co/mp3-preview/a69cabb16c6c3333db903d1f538e808493689e40?cid=6ce7c42a73ca48339295b6326ed6a165"
+  } //https://youtu.be/dQw4w9WgXcQ?t=43"
+  document.getElementById('preview_label').innerHTML = d.id
+  
+ });
 
 var text = g.append("g").attr("class", "labels").selectAll("g")
     .data(nodes)
@@ -158,7 +175,15 @@ var zoom_handler = d3.zoom()
 zoom_handler(svg);  
 
 
+function handleMouseOver(d) {
+  d3.select(this).attr('r', radius*2);
+  text.style("opacity", 1);
+}
 
+function handleMouseOut(d) {
+  d3.select(this).attr('r', radius);
+  d3.selectAll(".mylabel").remove()
+}
 
 function circleColor(d){
     //console.log(d.type)
@@ -217,6 +242,7 @@ function tickActions() {
     
     text
         .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+    
 } 
 </script>
 

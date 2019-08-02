@@ -31,7 +31,11 @@ class ArtistTree:
             song_artist = artists.pop(0)
             
             self.tree.add_node(song_artist, type=0)
-            self.tree.add_node(song, type=1, preview=preview)
+            
+            if preview != None:
+                self.tree.add_node(song, type=1, preview=preview)
+            else:
+                self.tree.add_node(song, type=1, preview="None")
             
             
             self.tree.add_edge(song_artist, song)
