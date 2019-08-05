@@ -82,12 +82,14 @@ div {
     background: #ccc;
   }
 
-  .sidenav .new_search {
+  .sidenav .new_search button {
     position: fixed;
     left: 0px;
     bottom: 100px;
     margin-left: 25px;
     margin-bottom: 25px;
+    margin-top: 60%;
+    width: 90%;
   }
 
   .sidenav audio {

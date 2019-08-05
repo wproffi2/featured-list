@@ -65,8 +65,14 @@ class FeaturedArtists:
             tracks = [album['id'] for album in artist_albums]
             data = tuple(map(self.collectSongs, tracks))
             data = [x for row in data for x in row]
-
-            data = list(set(data))
+            
+            ls = []
+            for song in data:
+                if self.artist_name in song[1]:
+                    ls.append(song)
+            
+            
+            data = list(set(ls))
             #print(data)
             return(data)
         except Exception as e:
