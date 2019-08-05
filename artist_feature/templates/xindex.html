@@ -5,14 +5,13 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="{{ STATIC_URL }}static/style.css">
 
-
 <style>
 
-    .links line {
-      stroke: #999;
-      stroke-opacity: 0.6;
-    }
-    
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
 </style>
 
 <div class="sidenav">
@@ -26,14 +25,18 @@
             <label for="appears_on">Include Songs the Artist Appears On</label>
             <br>
         </form>
-
+        
+        <label id = "preview_label" class="preview_label" for ="play_preview"></label>
+        
         <form method="POST" action="/">
-            {% csrf_token %}
-            <button id='new_search' name='new_search' class="new_search" type="submit" hidden></button>
+          {% csrf_token %}
+          <button id='new_search' name='new_search' class="new_search" type="submit" hidden></button>
         </form>
+        
         <audio controls id='play_preview' src=""></audio>
     </div>
 </div>
+
 
 <br>
 
@@ -48,15 +51,16 @@
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
-
+    
 var radius = 15; 
 var links = {{links}};
   
 var nodes = {{nodes}};
 
+
 var simulation = d3.forceSimulation()
     .nodes(nodes);
-
+                              
 var link_force =  d3.forceLink(links)
     .id(function(d) { return d.id; })
     .distance(function(d) {return 100});            
@@ -67,14 +71,15 @@ var charge_force = d3.forceManyBody()
       if (d.index === 0) charge = 10*charge;
       return charge;
     }); 
-
-var center_force = d3.forceCenter(width / 2, height / 2);
-
+    
+var center_force = d3.forceCenter(width / 2, height / 2);  
+                      
 simulation
     .force("charge_force", charge_force)
     .force("center_force", center_force)
     .force("links",link_force);
 
+        
 //add tick instructions: 
 simulation.on("tick", tickActions );
 
@@ -84,54 +89,65 @@ var g = svg.append("g")
 
 //draw links between nodes
 var link = g.append("g")
-    .attr("class", "links")
+      .attr("class", "links")
     .selectAll("line")
     .data(links)
     .enter().append("line")
-    .attr("stroke-width", 2);
+      .attr("stroke-width", 2);        
 
-//draw nodes
+//draw circles for the nodes 
 var node = g.append("g")
-.attr("class", "nodes") 
-    .selectAll("circle")
-    .data(nodes)
-    .enter()
-    .append("circle")
-    .attr("r", radius)
-    .attr("fill", circleColor)
-    .attr("xlink:href", function (d) { return d.preview;} )
-    .on("mouseover", handleMouseOver)
-    .on("mouseout", handleMouseOut);
+        .attr("class", "nodes") 
+        .selectAll("circle")
+        .data(nodes)
+        .enter()
+        .append("circle")
+        .attr("r", radius)
+        .attr("fill", circleColor)
+        .attr("xlink:href", function (d) { return d.preview;} )
+        .on("mouseover", handleMouseOver)
+        .on("mouseout", handleMouseOut);
 
 
 node.on('click', function(d) {
-    document.getElementById('new_search').hidden = true
-    document.getElementById('new_search').disabled = false
-    document.getElementById('play_preview').src = ''
+  //console.log(d.type)
+  //document.getElementById('preview_label').innerHTML = ''
+  document.getElementById('new_search').hidden = true
+  document.getElementById('new_search').disabled = false
+  document.getElementById('play_preview').src = ''
 
-    if (d.type == 2 || d.type == 0) {
-        document.getElementById('new_search').innerHTML = "Search for " + d.id
-        document.getElementById('new_search').hidden = false
-        document.getElementById('new_search').value = d.id
+  if (d.type == 2 || d.type == 0) {
+    
+    document.getElementById('new_search').innerHTML = "Search for " + d.id
+    document.getElementById('new_search').hidden = false
+    document.getElementById('new_search').value = d.id
+  
+  } else{
+    
+    if (d.preview != 'None') {
+      
+      document.getElementById('play_preview').src = d.preview
+      document.getElementById('new_search').innerHTML = "Play Preview for " + d.id
+      document.getElementById('new_search').disabled = true
+      document.getElementById('new_search').hidden = false
+      //document.getElementById('preview_label').innerHTML = d.id
+    
     } else {
-        if (d.preview != 'None') {
-            document.getElementById('play_preview').src = d.preview
-            document.getElementById('new_search').innerHTML = "Play Preview for " + d.id
-            document.getElementById('new_search').disabled = true
-            document.getElementById('new_search').hidden = false
-        } else {
-            document.getElementById('play_preview').src = "https://p.scdn.co/mp3-preview/a69cabb16c6c3333db903d1f538e808493689e40?cid=6ce7c42a73ca48339295b6326ed6a165"
-            document.getElementById('new_search').innerHTML = "Play Preview for " + d.id
-            document.getElementById('new_search').disabled = true
-            document.getElementById('new_search').hidden = false
-        }
+      
+      document.getElementById('play_preview').src = "https://p.scdn.co/mp3-preview/a69cabb16c6c3333db903d1f538e808493689e40?cid=6ce7c42a73ca48339295b6326ed6a165"
+      document.getElementById('new_search').innerHTML = "Play Preview for " + d.id
+      //document.getElementById('preview_label').innerHTML = d.id
+      document.getElementById('new_search').disabled = true
+      document.getElementById('new_search').hidden = false
+    
     }
-});
+  }
 
-//add labels 
-var text = g.append("g")
-    .attr("class", "labels")
-    .selectAll("g")
+  
+  
+ });
+
+var text = g.append("g").attr("class", "labels").selectAll("g")
     .data(nodes)
     .enter().append("g")
     .append("text")
@@ -142,34 +158,39 @@ var text = g.append("g")
     .style("visibility", "hidden")
     .text(function (d) { return d.id; });
 
+
+
 //add drag capabilities  
 var drag_handler = d3.drag()
 	.on("start", drag_start)
 	.on("drag", drag_drag)
-	.on("end", drag_end);
-
+	.on("end", drag_end);	
+	
 drag_handler(node);
+
 
 //add zoom capabilities 
 var zoom_handler = d3.zoom()
     .on("zoom", zoom_actions);
 
-zoom_handler(svg);
+zoom_handler(svg);  
+
 
 function handleMouseOver(d) {
-    d3.select(this).attr('r', radius*2);
-    //d3.select(this).select('text').style("visibility", "visible");
-    //d3.select(this).style("visibility","visible")
-    text.style("visibility", "visible");
+  d3.select(this).attr('r', radius*2);
+  //d3.select(this).select('text').style("visibility", "visible");
+  //d3.select(this).style("visibility","visible")
+  text.style("visibility", "visible");
 }
 
 function handleMouseOut(d) {
-    d3.select(this).attr('r', radius);
-    d3.selectAll(".mylabel").remove()
-    text.style("visibility", "hidden")
+  d3.select(this).attr('r', radius);
+  d3.selectAll(".mylabel").remove()
+  text.style("visibility", "hidden")
 }
 
 function circleColor(d){
+    //console.log(d.type)
     switch (d.type) {
        case 0: return"#0046FF";
        break;
@@ -184,23 +205,24 @@ function circleColor(d){
     }
 }
 
-//Drag functions  
+//Drag functions 
+//d is the node 
 function drag_start(d) {
-    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
+ if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
 }
 
 //make sure you can't drag the circle outside the box
 function drag_drag(d) {
-    d.fx = d3.event.x;
-    d.fy = d3.event.y;
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
 }
 
 function drag_end(d) {
-    if (!d3.event.active) simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
 }
 
 //Zoom functions 
@@ -209,12 +231,12 @@ function zoom_actions(){
 }
 
 function tickActions() {
-    
     //update circle positions each tick of the simulation 
-    node
+       node
         .attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
-
+    
+    
     //update link positions 
     link
         .attr("x1", function(d) { return d.source.x; })
@@ -222,14 +244,10 @@ function tickActions() {
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
     
-    //update label positions
     text
-        .attr("transform", function (d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        });
+        .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
     
-}
-
+} 
 </script>
 
 {% endautoescape %}
