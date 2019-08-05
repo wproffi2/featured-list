@@ -42,7 +42,7 @@
         
         <form method="POST" action="/">
           {% csrf_token %}
-          <button id='new_search' class="new_search" type="submit" hidden></button>
+          <button id='new_search' name='new_search' class="new_search" type="submit" hidden></button>
         </form>
         
         <audio controls id='play_preview' src=""></audio>
@@ -122,7 +122,7 @@ var node = g.append("g")
 
 node.on('click', function(d) {
   console.log(d.type)
-  document.getElementById('preview_label').innerHTML = ''
+  //document.getElementById('preview_label').innerHTML = ''
   document.getElementById('new_search').hidden = true
   document.getElementById('new_search').disabled = false
   document.getElementById('play_preview').src = ''
@@ -131,7 +131,7 @@ node.on('click', function(d) {
     
     document.getElementById('new_search').innerHTML = "Search for " + d.id
     document.getElementById('new_search').hidden = false
-    document.getElementById('search').value = d.id
+    document.getElementById('new_search').value = d.id
   
   } else{
     
