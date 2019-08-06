@@ -73,7 +73,7 @@ class FeaturedArtists:
             
             
             data = list(set(ls))
-            #print(data)
+            
             return(data)
         except Exception as e:
             return e
