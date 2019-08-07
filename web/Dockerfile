@@ -7,6 +7,4 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
-CMD python manage.py collectstatic
-
 COPY . . 
