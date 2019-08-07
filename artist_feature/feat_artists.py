@@ -1,6 +1,5 @@
 import spotipy
 import json
-import pandas
 try:
     from .config import Creds
 except:

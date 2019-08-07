@@ -1,7 +1,6 @@
 import networkx as nx
 from networkx.readwrite import json_graph
 import json
-import matplotlib.pyplot as plt
 try:
     from .feat_artists import FeaturedArtists
 except:
@@ -12,10 +11,6 @@ class ArtistTree:
     def __init__(self):
         self.tree = nx.Graph()
         self.feat_performers = []      
-    
-    def display(self):
-        nx.draw(self.tree, with_labels=True)
-        plt.show()
 
     def graphToJSON(self):
         data = json_graph.node_link_data(self.tree)
