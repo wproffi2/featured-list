@@ -3,6 +3,7 @@ services:
 
   web:
     build: ./web
+    volumes: ./web
     expose:
       - "8000"
     command: python3 manage.py runserver 0.0.0.0:8000
