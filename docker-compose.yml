@@ -12,6 +12,8 @@ services:
   nginx:
     restart: always
     build: ./nginx/
+    volumes_from: 
+      - web
     ports:
       - "8000:80"
     links:
