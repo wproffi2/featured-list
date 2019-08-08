@@ -12,6 +12,8 @@ services:
   nginx:
     restart: always
     build: ./nginx/
+    volumes: 
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
     ports:
       - "8000:80"
     links:
