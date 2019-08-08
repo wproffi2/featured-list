@@ -2,11 +2,8 @@
 
 docker-compose down
 
-if docker system prune -a; then
-        echo "pass"
-else
-        echo "fail"
-fi
+docker system prune -a
+
 git pull
 
 docker-compose build
