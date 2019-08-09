@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 
 CMD python manage.py collectstatic --noinput
 
-COPY . . 
+COPY . /usr/src/app
