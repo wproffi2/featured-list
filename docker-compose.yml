@@ -15,6 +15,6 @@ services:
       - ./nginx/default.conf:/etc/nginx/default.conf
     build: ./nginx/
     ports:
-      - 80:8000
+      - 8000:80
     links:
       - web
