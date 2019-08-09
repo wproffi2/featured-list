@@ -15,7 +15,7 @@ services:
     volumes_from: 
       - web
     expose: 
-      -"80"
+      - "80"
     ports:
       - "8000:80"
     links:
