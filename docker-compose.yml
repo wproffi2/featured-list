@@ -14,8 +14,6 @@ services:
     build: ./nginx/
     volumes_from: 
       - web
-    expose: 
-      - "80"
     ports:
       - "80:8000"
     links:
