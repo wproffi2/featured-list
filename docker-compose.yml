@@ -11,6 +11,8 @@ services:
 
   nginx:
     restart: always
+    volumes: 
+      - ./nginx/default.conf:/etc/nginx/default.conf
     build: ./nginx/
     ports:
       - 80:8000
