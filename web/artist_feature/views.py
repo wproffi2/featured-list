@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from django.http import HttpResponse
 from .artist_tree import ArtistTree
 from .feat_artists import FeaturedArtists
